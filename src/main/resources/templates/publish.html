@@ -17,10 +17,7 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+                <span class="sr-only">羽社区</span>
             </button>
             <a class="navbar-brand" href="#">羽社区</a>
         </div>
@@ -52,20 +49,30 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
 
-            <form action="">
+            <form action="/publish" method="post">
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）:</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="问题标题……">
+                    <input type="text" class="form-control" th:value="${title}" id="title" name="title" placeholder="问题标题……">
                 </div>
                 <div class="form-group">
-                    <label for="title">问题补充（必填，参照右边提示）:</label>
-                    <textarea name="description" id="description" class="form-control" cols="30" rows="10"></textarea>
+                    <label for="description">问题补充（必填，参照右边提示）:</label>
+                    <textarea name="description" th:value="${description}" id="description" class="form-control" cols="30" rows="10"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="title">添加标签:</label>
-                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以，号分隔">
+                    <label for="tag">添加标签:</label>
+                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签，以，号分隔">
                 </div>
-                <button type="submit" class="btn btn-success btn-publish">发布</button>
+                <div class="container-fluid main">
+                    <div class="row">
+                        <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12" th:text="${error}"
+                             th:if="${error != null}"></div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"><button type="submit" class="btn btn-success btn-publish ">
+                            发布
+                        </button></div>
+
+                    </div>
+                </div>
+
             </form>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
