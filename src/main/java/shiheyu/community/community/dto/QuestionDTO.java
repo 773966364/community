@@ -1,13 +1,14 @@
-package shiheyu.community.community.model;
+package shiheyu.community.community.dto;
 
 import lombok.Data;
+import shiheyu.community.community.model.User;
 
 /**
  * @Author: shiheyu
- * @Date: 2022/3/25 22:34
+ * @Date: 2022/3/27 23:07
  */
 @Data
-public class Question {
+public class QuestionDTO {
     private Integer id;
     private String title;
     private String description;
