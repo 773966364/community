@@ -61,7 +61,15 @@ public class AuthorizeController {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            System.out.println(user.toString());
+            System.out.println(userMapper.findByAccountId(user.getAccountId()));
+            if(userMapper.findByAccountId(user.getAccountId()) == null){
+                userMapper.insert(user);
+                System.out.println();
+            }else{
+                userMapper.updateToken(user.getToken(),user.getAccountId());
+            }
+//            userMapper.insert(user);
             response.addCookie(new Cookie("token",token));
 
            // request.getSession().setAttribute("user",githubUser);
