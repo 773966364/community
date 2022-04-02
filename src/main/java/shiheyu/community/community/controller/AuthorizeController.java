@@ -23,6 +23,7 @@ import java.util.UUID;
 public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
+
     @Autowired
     private UserMapper userMapper;
 
@@ -34,9 +35,6 @@ public class AuthorizeController {
 
     @Value("${github.redirect.uri}")
     private String redirectUri;
-
-
-
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name="code") String code,
@@ -65,7 +63,6 @@ public class AuthorizeController {
             System.out.println(userMapper.findByAccountId(user.getAccountId()));
             if(userMapper.findByAccountId(user.getAccountId()) == null){
                 userMapper.insert(user);
-                System.out.println();
             }else{
                 userMapper.updateToken(user.getToken(),user.getAccountId());
             }
@@ -79,9 +76,5 @@ public class AuthorizeController {
             return "redirect:/";
         }
 
-//        System.out.println(accessToken);
-//        System.out.println(user.toString());
-//        githubProvider.getAccessToken(accessTokenDTO);
-//        return "index";
     }
 }
