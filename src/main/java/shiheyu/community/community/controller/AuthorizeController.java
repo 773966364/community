@@ -10,10 +10,8 @@ import shiheyu.community.community.dto.GithubUser;
 import shiheyu.community.community.mapper.UserMapper;
 import shiheyu.community.community.model.User;
 import shiheyu.community.community.provider.GithubProvider;
-import shiheyu.community.community.service.UserService;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -28,9 +26,6 @@ public class AuthorizeController {
 
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -61,25 +56,25 @@ public class AuthorizeController {
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-
-            userService.createOrUpdate(user);
+            System.out.println(user.toString());
+            System.out.println(userMapper.findByAccountId(user.getAccountId()));
+            if(userMapper.findByAccountId(user.getAccountId()) == null){
+                userMapper.insert(user);
+            }else{
+                userMapper.updateToken(user.getToken(),user.getAccountId());
+            }
+//            userMapper.insert(user);
             response.addCookie(new Cookie("token",token));
+
+           // request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         }else{
             //wrong reload
             return "redirect:/";
         }
-    }
 
-    @GetMapping("/logout")
-    public  String logout(HttpServletRequest request,
-                          HttpServletResponse response){
-        request.getSession().removeAttribute("user");
-        Cookie cookie = new Cookie("token",null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        return "redirect:/";
     }
 }

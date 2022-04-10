@@ -23,7 +23,4 @@ public interface UserMapper {
 
     @Update("update user set token = #{token} where account_id = #{account_id}")
     Integer updateToken(@Param("token") String token,@Param("account_id") String account_id);
-
-    @Update("update user set  name = #{name}, token = #{token},gmt_modified = #{gmtModified}, avatar_url = #{avatarUrl} where id = #{id}")
-    void update(User user);
 }
